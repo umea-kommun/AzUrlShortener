@@ -60,11 +60,11 @@ namespace Cloud5mins.Function
                 {
                     return invalidRequest;
                 }
-                else
-                {
-                    userId = principal.FindFirst(ClaimTypes.GivenName).Value;
-                    log.LogInformation("Authenticated user {user}.", userId);
-                }
+                //else
+                //{
+                //   userId = principal.FindFirst(ClaimTypes.GivenName).Value;
+                //    log.LogInformation("Authenticated user {user}.", userId);
+                //}
 
                 // Validation of the inputs
                 if (req == null)
