@@ -39,6 +39,8 @@ namespace Cloud5mins.Function
         ExecutionContext context,
         ClaimsPrincipal principal)
         {
+            log.LogInformation("UrlList robboh: Starting up!");
+            
             log.LogInformation($"C# HTTP trigger function processed this request: {req}");
 
             var result = new ListResponse();
@@ -53,7 +55,7 @@ namespace Cloud5mins.Function
 
             try
             {
-                log.LogInformation("UrlList robboh: Starting up!");
+                log.LogInformation("UrlList robboh: Try!");
                 var invalidRequest = Utility.CatchUnauthorize(principal, log);
                 if (invalidRequest != null)
                 {
