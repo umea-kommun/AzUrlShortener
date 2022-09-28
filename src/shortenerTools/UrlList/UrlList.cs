@@ -53,6 +53,7 @@ namespace Cloud5mins.Function
 
             try
             {
+                log.LogInformation("UrlList robboh: Starting up!");
                 var invalidRequest = Utility.CatchUnauthorize(principal, log);
                 if (invalidRequest != null)
                 {
@@ -71,6 +72,7 @@ namespace Cloud5mins.Function
                 {
                     url.ShortUrl = Utility.GetShortUrl(host, url.RowKey);
                 }
+                log.LogInformation("UrlList robboh: finished!");
             }
             catch (Exception ex)
             {
