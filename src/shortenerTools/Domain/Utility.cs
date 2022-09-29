@@ -64,20 +64,26 @@ namespace Cloud5mins.domain
 
         public static IActionResult CatchUnauthorize(ClaimsPrincipal principal, ILogger log)
         {
+            log.LogInformation("Utility robboh: Starting up!: " + principal);
             if (principal == null)
             {
+                log.LogInformation("Utility robboh: principal == null");
                 log.LogWarning("No principal.");
                 return new UnauthorizedResult();
             }
 
             if (principal.Identity == null)
             {
+                log.LogInformation("Utility robboh: Identity == null");
+                
                 log.LogWarning("No identity.");
                 return new UnauthorizedResult();
             }
 
             if (!principal.Identity.IsAuthenticated)
             {
+                log.LogInformation("Utility robboh: IsAuthenticated == not auth");
+                
                 log.LogWarning("Request was not authenticated.");
                 return new UnauthorizedResult();
             }
@@ -91,6 +97,7 @@ namespace Cloud5mins.domain
             //        StatusCode = System.Net.HttpStatusCode.BadRequest
             //    });
             //}
+            log.LogInformation("Utility robboh: All good");
             return null;
         }
     }
