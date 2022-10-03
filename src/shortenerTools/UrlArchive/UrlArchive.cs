@@ -1,4 +1,4 @@
-﻿/*
+/*
 ```c#
 Input:
     {
@@ -57,14 +57,15 @@ namespace Cloud5mins.Function
             ShortUrlEntity result;
             try
             {
-                var invalidRequest = Utility.CatchUnauthorize(principal, log);
+                var givenName = Utility.GetNameInJWT(log, req);
+                var invalidRequest = Utility.CatchUnauthorizeAsync(principal, log, givenName);
                 if (invalidRequest != null)
                 {
                     return invalidRequest;
                 }
                 else
                 {
-                    userId = principal.FindFirst(ClaimTypes.GivenName).Value;
+                    userId = givenName;
                     log.LogInformation("Authenticated user {user}.", userId);
                 }
 
