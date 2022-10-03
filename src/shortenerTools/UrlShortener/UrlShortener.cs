@@ -47,8 +47,6 @@ namespace Cloud5mins.Function
         ExecutionContext context,
         ClaimsPrincipal principal)
         {
-            log.LogInformation("UrlShortener robboh: Starting up!");
-            
             log.LogInformation($"C# HTTP trigger function processed this request: {req}");
             string userId = string.Empty;
             ShortRequest input;
@@ -56,34 +54,29 @@ namespace Cloud5mins.Function
 
             try
             {
-                log.LogInformation("UrlShortener robboh: Try!");
-                
-                var invalidRequest = Utility.CatchUnauthorize(principal, log);
+                var givenName = Utility.GetNameInJWT(log, req);
+                var invalidRequest = Utility.CatchUnauthorizeAsync(principal, log, givenName);
 
                 if (invalidRequest != null)
                 {
                     return invalidRequest;
                 }
-                //else
-                //{
-                //   userId = principal.FindFirst(ClaimTypes.GivenName).Value;
-                //    log.LogInformation("Authenticated user {user}.", userId);
-                //}
+                else
+                {
+                    userId = givenName;
+                    log.LogInformation("Authenticated user {user}.", userId);
+                }
 
                 // Validation of the inputs
                 if (req == null)
                 {
                     return new BadRequestObjectResult(new { StatusCode = HttpStatusCode.NotFound });
                 }
-                
-                log.LogInformation("UrlShortener robboh: StreamReader!");             
 
                 using (var reader = new StreamReader(req.Body))
                 {
                     var strBody = reader.ReadToEnd();
                     input = JsonSerializer.Deserialize<ShortRequest>(strBody, new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
-                    log.LogInformation("UrlShortener robboh: StreamReader inside: " + input);             
-                    
                     if (input == null)
                     {
                         return new BadRequestObjectResult(new { StatusCode = HttpStatusCode.NotFound });
@@ -111,8 +104,6 @@ namespace Cloud5mins.Function
                     .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
                     .AddEnvironmentVariables()
                     .Build();
-                
-                log.LogInformation("UrlShortener robboh: StreamReader före StorageTableHelper"); 
 
                 StorageTableHelper stgHelper = new StorageTableHelper(config["UlsDataStorage"]);
 
