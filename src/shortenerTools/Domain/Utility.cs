@@ -1,9 +1,13 @@
-using System.Linq;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace Cloud5mins.domain
 {
@@ -62,43 +66,61 @@ namespace Cloud5mins.domain
             }
         }
 
-        public static IActionResult CatchUnauthorize(ClaimsPrincipal principal, ILogger log)
+        public static IActionResult CatchUnauthorizeAsync(ClaimsPrincipal principal, ILogger log, string givenName)
         {
-            log.LogInformation("Utility robboh: Starting up!: " + principal);
+
             if (principal == null)
             {
-                log.LogInformation("Utility robboh: principal == null");
                 log.LogWarning("No principal.");
                 return new UnauthorizedResult();
             }
 
             if (principal.Identity == null)
             {
-                log.LogInformation("Utility robboh: Identity == null");
-                
                 log.LogWarning("No identity.");
                 return new UnauthorizedResult();
             }
 
             if (!principal.Identity.IsAuthenticated)
             {
-                log.LogInformation("Utility robboh: IsAuthenticated == not auth");
-                
                 log.LogWarning("Request was not authenticated.");
                 return new UnauthorizedResult();
             }
 
-            //if (principal.FindFirst(ClaimTypes.GivenName) is null)
-            //{
-            //    log.LogError("Claim not Found");
-            //    return new BadRequestObjectResult(new
-            //    {
-            //        message = "Claim not Found",
-            //        StatusCode = System.Net.HttpStatusCode.BadRequest
-            //    });
-            //}
-            log.LogInformation("Utility robboh: All good");
+            if (string.IsNullOrEmpty(givenName))
+            {
+                log.LogError("Claim not Found");
+                return new BadRequestObjectResult(new
+                {
+                    message = "Claim not Found",
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                });
+            }
             return null;
+        }
+
+        public static string GetNameInJWT(ILogger log, HttpRequest accessToken)
+        {
+            try
+            {
+                string givenName = "";
+                accessToken.Headers.TryGetValue("Authorization", out var headerValue);
+                if (headerValue != "")
+                {
+                    var jwtEncodedString = headerValue[0].Substring(7);
+                    var handler = new JwtSecurityTokenHandler();
+                    var jsonToken = handler.ReadToken(jwtEncodedString);
+                    var tokenS = jsonToken as JwtSecurityToken;
+                    var name = tokenS.Claims.FirstOrDefault(t => t.Type == "name");
+                    givenName = name.ToString().Substring(6);
+                }
+                return givenName;
+            }
+            catch (System.Exception ex)
+            {
+                log.LogError("Authorization in header not Found");
+                return "";
+            }
         }
     }
 }
