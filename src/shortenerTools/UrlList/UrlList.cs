@@ -39,8 +39,6 @@ namespace Cloud5mins.Function
         ExecutionContext context,
         ClaimsPrincipal principal)
         {
-            log.LogInformation("UrlList robboh: Starting up!");
-            
             log.LogInformation($"C# HTTP trigger function processed this request: {req}");
 
             var result = new ListResponse();
@@ -55,17 +53,17 @@ namespace Cloud5mins.Function
 
             try
             {
-                log.LogInformation("UrlList robboh: Try!");
-                var invalidRequest = Utility.CatchUnauthorize(principal, log);
+                var givenName = Utility.GetNameInJWT(log, req);
+                var invalidRequest = Utility.CatchUnauthorizeAsync(principal, log, givenName);
                 if (invalidRequest != null)
                 {
                     return invalidRequest;
                 }
-                //else
-                //{
-                //   userId = principal.FindFirst(ClaimTypes.GivenName).Value;
-                //   log.LogInformation("Authenticated user {user}.", userId);
-                //}
+                else
+                {
+                    userId = givenName;
+                    log.LogInformation("Authenticated user {user}.", userId);
+                }
 
                 result.UrlList = await stgHelper.GetAllShortUrlEntities();
                 result.UrlList = result.UrlList.Where(p => !(p.IsArchived ?? false)).ToList();
@@ -74,7 +72,6 @@ namespace Cloud5mins.Function
                 {
                     url.ShortUrl = Utility.GetShortUrl(host, url.RowKey);
                 }
-                log.LogInformation("UrlList robboh: finished!");
             }
             catch (Exception ex)
             {
