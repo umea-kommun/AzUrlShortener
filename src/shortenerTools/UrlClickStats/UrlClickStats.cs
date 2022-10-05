@@ -30,16 +30,15 @@ namespace Cloud5mins.Function
             UrlClickStatsRequest input;
             var result = new ClickStatsEntityList();
 
-            var givenName = Utility.GetNameInJWT(log, req);
-            var invalidRequest = Utility.CatchUnauthorizeAsync(principal, log, givenName);
+            var invalidRequest = Utility.CatchUnauthorizeAsync(principal, log, req);
             if (invalidRequest != null)
             {
                 return invalidRequest;
             }
             else
             {
-                userId = givenName;
-                log.LogInformation("Authenticated user {user}.", userId);
+                var idp = Utility.GetIDPInJWT(log, req);
+                log.LogInformation("Authenticated user via {idp}.", idp);
             }
 
             // Validation of the inputs
