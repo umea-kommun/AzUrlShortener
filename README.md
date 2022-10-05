@@ -135,7 +135,7 @@ Body, vanity kan vara blank för att få en autogenererad string:
     "vanity": "motGithub"
 }
 
-####Lista alla korta urler
+#### Lista alla korta urler
 GET https://DinAzureFunction.azurewebsites.net/api/UrlList?code=DinFunctionKey
 
 Header:
@@ -144,7 +144,7 @@ Content-Type application/json
 Body:
 Ska vara tomt
 
-####Arkivera kort url
+#### Arkivera kort url
 POST https://DinAzureFunction.azurewebsites.net/api/UrlArchive?code=DinFunctionKey
 
 Header:
@@ -158,7 +158,7 @@ PartitionKey är första bokstaven eller siffran i RowKey:
     "RowKey": "motGithub"
 }
 
-####Uppdatera befintlig kort url
+#### Uppdatera befintlig kort url
 POST https://shortenertools3lq4d.azurewebsites.net/api/UrlUpdate?code=DinFunctionKey
 
 Header:
