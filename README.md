@@ -98,6 +98,15 @@ Förändringar som måste kolla av vid eventuell uppdatering.
                     var idp = Utility.GetIDPInJWT(log, req);
                     log.LogInformation("Authenticated user via {idp}.", idp);
                 }
+### shortenerTools.csproj
+Addera följade:
+
+  <PropertyGroup>
+    <_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.23.1" />
+  </ItemGroup>
 
 
 # Azure Url Shortener (AzUrlShortener)
