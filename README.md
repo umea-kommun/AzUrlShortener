@@ -122,7 +122,7 @@ Addera följade:
 "?code=" ska ha en key till din function
 ![image](https://user-images.githubusercontent.com/47249718/194020265-bcdde88b-a0a1-4e6c-96ae-a5140b9f23b7.png)
 
-####Skapa kort url:
+#### Skapa kort url:
 POST https://DinAzureFunction.azurewebsites.net/api/UrlShortener?code=DinFunctionKey
 
 Header:
