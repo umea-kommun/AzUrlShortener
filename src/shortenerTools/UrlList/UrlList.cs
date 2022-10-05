@@ -53,16 +53,15 @@ namespace Cloud5mins.Function
 
             try
             {
-                var givenName = Utility.GetNameInJWT(log, req);
-                var invalidRequest = Utility.CatchUnauthorizeAsync(principal, log, givenName);
+                var invalidRequest = Utility.CatchUnauthorizeAsync(principal, log, req);
                 if (invalidRequest != null)
                 {
                     return invalidRequest;
                 }
                 else
                 {
-                    userId = givenName;
-                    log.LogInformation("Authenticated user {user}.", userId);
+                    var idp = Utility.GetIDPInJWT(log, req);
+                    log.LogInformation("Authenticated user via {idp}.", idp);
                 }
 
                 result.UrlList = await stgHelper.GetAllShortUrlEntities();
