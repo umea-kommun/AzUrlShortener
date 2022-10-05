@@ -126,20 +126,20 @@ Addera följade:
 POST https://DinAzureFunction.azurewebsites.net/api/UrlShortener?code=DinFunctionKey
 
 Header:
-Content-Type application/json
+            Content-Type application/json
 
 Body, vanity kan vara blank för att få en autogenererad string:
-{
-    "title": "Github",
-    "url": "https://github.com/",
-    "vanity": "motGithub"
-}
+            {
+                "title": "Github",
+                "url": "https://github.com/",
+                "vanity": "motGithub"
+            }
 
 #### Lista alla korta urler
 GET https://DinAzureFunction.azurewebsites.net/api/UrlList?code=DinFunctionKey
 
 Header:
-Content-Type application/json
+            Content-Type application/json
 
 Body:
 Ska vara tomt
@@ -148,29 +148,29 @@ Ska vara tomt
 POST https://DinAzureFunction.azurewebsites.net/api/UrlArchive?code=DinFunctionKey
 
 Header:
-Content-Type application/json
+            Content-Type application/json
 
 Body:
 RowKey är den korta urlen(vanity),
 PartitionKey är första bokstaven eller siffran i RowKey:
-{
-    "PartitionKey": "m",
-    "RowKey": "motGithub"
-}
+            {
+                "PartitionKey": "m",
+                "RowKey": "motGithub"
+            }
 
 #### Uppdatera befintlig kort url
 POST https://shortenertools3lq4d.azurewebsites.net/api/UrlUpdate?code=DinFunctionKey
 
 Header:
-Content-Type application/json
+            Content-Type application/json
 
 Body:
-{
-    "PartitionKey": "m",
-    "RowKey": "motGithub",
-    "title": "new Updated title motGithub",
-    "Url": "https://www.motGithub.com/IamNew"
-}
+            {
+                "PartitionKey": "m",
+                "RowKey": "motGithub",
+                "title": "new Updated title motGithub",
+                "Url": "https://www.motGithub.com/IamNew"
+            }
 
 # Azure Url Shortener (AzUrlShortener)
 
