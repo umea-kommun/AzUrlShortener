@@ -118,6 +118,59 @@ Addera följade:
                 <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.23.1" />
               </ItemGroup>
 
+## Men hur gör man då?
+"?code=" ska ha en key till din function
+![image](https://user-images.githubusercontent.com/47249718/194020265-bcdde88b-a0a1-4e6c-96ae-a5140b9f23b7.png)
+
+####Skapa kort url:
+POST https://DinAzureFunction.azurewebsites.net/api/UrlShortener?code=DinFunctionKey
+
+Header:
+Content-Type application/json
+
+Body, vanity kan vara blank för att få en autogenererad string:
+{
+    "title": "Github",
+    "url": "https://github.com/",
+    "vanity": "motGithub"
+}
+
+####Lista alla korta urler
+GET https://DinAzureFunction.azurewebsites.net/api/UrlList?code=DinFunctionKey
+
+Header:
+Content-Type application/json
+
+Body:
+Ska vara tomt
+
+####Arkivera kort url
+POST https://DinAzureFunction.azurewebsites.net/api/UrlArchive?code=DinFunctionKey
+
+Header:
+Content-Type application/json
+
+Body:
+RowKey är den korta urlen(vanity),
+PartitionKey är första bokstaven eller siffran i RowKey:
+{
+    "PartitionKey": "m",
+    "RowKey": "motGithub"
+}
+
+####Uppdatera befintlig kort url
+POST https://shortenertools3lq4d.azurewebsites.net/api/UrlUpdate?code=DinFunctionKey
+
+Header:
+Content-Type application/json
+
+Body:
+{
+    "PartitionKey": "m",
+    "RowKey": "motGithub",
+    "title": "new Updated title motGithub",
+    "Url": "https://www.motGithub.com/IamNew"
+}
 
 # Azure Url Shortener (AzUrlShortener)
 
