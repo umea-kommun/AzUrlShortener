@@ -101,12 +101,12 @@ Förändringar som måste kolla av vid eventuell uppdatering.
 ### shortenerTools.csproj
 Addera följade:
 
-  <PropertyGroup>
-    <_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.23.1" />
-  </ItemGroup>
+              <PropertyGroup>
+                <_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>
+              </PropertyGroup>
+              <ItemGroup>
+                <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.23.1" />
+              </ItemGroup>
 
 
 # Azure Url Shortener (AzUrlShortener)
