@@ -1,7 +1,7 @@
 # by robboh
 AzUrlShortener Version 2
 Det är förändrat en del i koden från orginalet FBoucher/AzUrlShortener [![FBoucher/AzUrlShortener](https://github.com/FBoucher/AzUrlShortener)] för att AzUrlShortener ska anpassas för vår miljö.
-Förändringar som måste kolla av vid eventuell uppdatering.
+Förändringar som måste kollas av vid eventuell uppdatering.
 
 ### Utility.cs
 
@@ -98,6 +98,7 @@ Förändringar som måste kolla av vid eventuell uppdatering.
                     var idp = Utility.GetIDPInJWT(log, req);
                     log.LogInformation("Authenticated user via {idp}.", idp);
                 }
+
 ### shortenerTools.csproj
 Addera följade:
 
