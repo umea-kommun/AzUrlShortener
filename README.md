@@ -164,7 +164,7 @@ PartitionKey är första bokstaven eller siffran i RowKey:
             }
 
 #### Uppdatera befintlig kort url
-POST https://shortenertools3lq4d.azurewebsites.net/api/UrlUpdate?code=DinFunctionKey
+POST https://DinAzureFunction.azurewebsites.net/api/UrlUpdate?code=DinFunctionKey
 
 Header:
 
