@@ -123,7 +123,8 @@ Addera följade:
 ![image](https://user-images.githubusercontent.com/47249718/194020265-bcdde88b-a0a1-4e6c-96ae-a5140b9f23b7.png)
 
 #### Skapa kort url:
-POST https://DinAzureFunction.azurewebsites.net/api/UrlShortener?code=DinFunctionKey
+
+            POST https://DinAzureFunction.azurewebsites.net/api/UrlShortener?code=DinFunctionKey
 
 Header:
 
@@ -138,7 +139,8 @@ Body, vanity kan vara blank för att få en autogenererad string:
             }
 
 #### Lista alla korta urler
-GET https://DinAzureFunction.azurewebsites.net/api/UrlList?code=DinFunctionKey
+
+            GET https://DinAzureFunction.azurewebsites.net/api/UrlList?code=DinFunctionKey
 
 Header:
 
@@ -148,7 +150,8 @@ Body:
 Ska vara tomt
 
 #### Arkivera kort url
-POST https://DinAzureFunction.azurewebsites.net/api/UrlArchive?code=DinFunctionKey
+
+            POST https://DinAzureFunction.azurewebsites.net/api/UrlArchive?code=DinFunctionKey
 
 Header:
 
@@ -164,7 +167,8 @@ PartitionKey är första bokstaven eller siffran i RowKey:
             }
 
 #### Uppdatera befintlig kort url
-POST https://DinAzureFunction.azurewebsites.net/api/UrlUpdate?code=DinFunctionKey
+
+            POST https://DinAzureFunction.azurewebsites.net/api/UrlUpdate?code=DinFunctionKey
 
 Header:
 
