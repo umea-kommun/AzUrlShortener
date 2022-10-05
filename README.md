@@ -1,3 +1,106 @@
+# by robboh
+AzUrlShortener Version 2
+Det är förändrat en del i koden från orginalet FBoucher/AzUrlShortener [![FBoucher/AzUrlShortener](https://github.com/FBoucher/AzUrlShortener)] för att AzUrlShortener ska anpassas för vår miljö.
+Förändringar som måste kolla av vid eventuell uppdatering.
+
+### Utility.cs
+
+public static IActionResult CatchUnauthorizeAsync(ClaimsPrincipal principal, ILogger log, HttpRequest request)
+        {
+
+            if (principal == null)
+            {
+                log.LogWarning("No principal.");
+                return new UnauthorizedResult();
+            }
+
+            if (principal.Identity == null)
+            {
+                log.LogWarning("No identity.");
+                return new UnauthorizedResult();
+            }
+
+            if (!principal.Identity.IsAuthenticated)
+            {
+                log.LogWarning("Request was not authenticated.");
+                return new UnauthorizedResult();
+            }
+
+            var givenName = Utility.GetNameInJWT(log, request);
+
+            if (string.IsNullOrEmpty(givenName))
+            {
+                log.LogError("Claim not Found");
+                return new BadRequestObjectResult(new
+                {
+                    message = "Claim not Found",
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                });
+            }
+            return null;
+        }
+
+        public static string GetNameInJWT(ILogger log, HttpRequest accessToken)
+        {
+            try
+            {
+                string givenName = "";
+                accessToken.Headers.TryGetValue("Authorization", out var headerValue);
+                if (headerValue != "")
+                {
+                    var jwtEncodedString = headerValue[0].Substring(7);
+                    var handler = new JwtSecurityTokenHandler();
+                    var jsonToken = handler.ReadToken(jwtEncodedString);
+                    var tokenS = jsonToken as JwtSecurityToken;
+                    var name = tokenS.Claims.FirstOrDefault(t => t.Type == "name");
+                    givenName = name.ToString().Substring(6);
+                }
+                return givenName;
+            }
+            catch (System.Exception ex)
+            {
+                log.LogError("Authorization in JWT not Found");
+                return "";
+            }
+        }
+
+        public static string GetIDPInJWT(ILogger log, HttpRequest accessToken)
+        {
+            try
+            {
+                string idp = "";
+                accessToken.Headers.TryGetValue("Authorization", out var headerValue);
+                if (headerValue != "")
+                {
+                    var jwtEncodedString = headerValue[0].Substring(7);
+                    var handler = new JwtSecurityTokenHandler();
+                    var jsonToken = handler.ReadToken(jwtEncodedString);
+                    var tokenS = jsonToken as JwtSecurityToken;
+                    idp = tokenS.Claims.FirstOrDefault(t => t.Type == "idp").ToString();
+                }
+                return idp;
+            }
+            catch (System.Exception ex)
+            {
+                log.LogError("IDP in JWT not Found");
+                return "";
+            }
+        }
+
+### UrlList.cs, UrlUpdate.cs, UrlShortener.cs, UrlClickStats.cs, UrlClickStatsByDay.cs, UrlArchive.cs
+
+                var invalidRequest = Utility.CatchUnauthorizeAsync(principal, log, req);
+                if (invalidRequest != null)
+                {
+                    return invalidRequest;
+                }
+                else
+                {
+                    var idp = Utility.GetIDPInJWT(log, req);
+                    log.LogInformation("Authenticated user via {idp}.", idp);
+                }
+
+
 # Azure Url Shortener (AzUrlShortener)
 
 [![Deploy to Azure](https://img.shields.io/badge/Deploy%20To-Azure-blue?logo=microsoft-azure)](https://portal.azure.com/?WT.mc_id=dotnet-0000-frbouche#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FFBoucher%2FAzUrlShortener%2Fmain%2Fdeployment%2FazureDeploy.json)
