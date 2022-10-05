@@ -46,12 +46,12 @@ För att inte frontend adminBlazorWebsite ska installeras vid deployment via git
             return null;
         }
 
-        public static string GetNameInJWT(ILogger log, HttpRequest accessToken)
+        public static string GetNameInJWT(ILogger log, HttpRequest request)
         {
             try
             {
                 string givenName = "";
-                accessToken.Headers.TryGetValue("Authorization", out var headerValue);
+                request.Headers.TryGetValue("Authorization", out var headerValue);
                 if (headerValue != "")
                 {
                     var jwtEncodedString = headerValue[0].Substring(7);
@@ -70,12 +70,12 @@ För att inte frontend adminBlazorWebsite ska installeras vid deployment via git
             }
         }
 
-        public static string GetIDPInJWT(ILogger log, HttpRequest accessToken)
+        public static string GetIDPInJWT(ILogger log, HttpRequest request)
         {
             try
             {
                 string idp = "";
-                accessToken.Headers.TryGetValue("Authorization", out var headerValue);
+                request.Headers.TryGetValue("Authorization", out var headerValue);
                 if (headerValue != "")
                 {
                     var jwtEncodedString = headerValue[0].Substring(7);
