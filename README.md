@@ -5,8 +5,7 @@ Förändringar som måste kolla av vid eventuell uppdatering.
 
 ### Utility.cs
 
-            public static IActionResult CatchUnauthorizeAsync(ClaimsPrincipal principal, ILogger log, HttpRequest request)
-                    {
+            public static IActionResult CatchUnauthorizeAsync(ClaimsPrincipal principal, ILogger log, HttpRequest request) {
 
             if (principal == null)
             {
