@@ -66,7 +66,7 @@ namespace Cloud5mins.domain
             }
         }
 
-        public static IActionResult CatchUnauthorizeAsync(ClaimsPrincipal principal, ILogger log, string givenName)
+        public static IActionResult CatchUnauthorizeAsync(ClaimsPrincipal principal, ILogger log, HttpRequest request)
         {
 
             if (principal == null)
@@ -87,6 +87,8 @@ namespace Cloud5mins.domain
                 return new UnauthorizedResult();
             }
 
+            var givenName = Utility.GetNameInJWT(log, request);
+
             if (string.IsNullOrEmpty(givenName))
             {
                 log.LogError("Claim not Found");
@@ -99,12 +101,12 @@ namespace Cloud5mins.domain
             return null;
         }
 
-        public static string GetNameInJWT(ILogger log, HttpRequest accessToken)
+        public static string GetNameInJWT(ILogger log, HttpRequest request)
         {
             try
             {
                 string givenName = "";
-                accessToken.Headers.TryGetValue("Authorization", out var headerValue);
+                request.Headers.TryGetValue("Authorization", out var headerValue);
                 if (headerValue != "")
                 {
                     var jwtEncodedString = headerValue[0].Substring(7);
@@ -118,7 +120,30 @@ namespace Cloud5mins.domain
             }
             catch (System.Exception ex)
             {
-                log.LogError("Authorization in header not Found");
+                log.LogError("Authorization in JWT not Found");
+                return "";
+            }
+        }
+
+        public static string GetIDPInJWT(ILogger log, HttpRequest request)
+        {
+            try
+            {
+                string idp = "";
+                request.Headers.TryGetValue("Authorization", out var headerValue);
+                if (headerValue != "")
+                {
+                    var jwtEncodedString = headerValue[0].Substring(7);
+                    var handler = new JwtSecurityTokenHandler();
+                    var jsonToken = handler.ReadToken(jwtEncodedString);
+                    var tokenS = jsonToken as JwtSecurityToken;
+                    idp = tokenS.Claims.FirstOrDefault(t => t.Type == "idp").ToString();
+                }
+                return idp;
+            }
+            catch (System.Exception ex)
+            {
+                log.LogError("IDP in JWT not Found");
                 return "";
             }
         }
