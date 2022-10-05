@@ -3,6 +3,13 @@ AzUrlShortener Version 2
 Det är förändrat en del i koden från orginalet FBoucher/AzUrlShortener [![FBoucher/AzUrlShortener](https://github.com/FBoucher/AzUrlShortener)] för att AzUrlShortener ska anpassas för vår miljö.
 Förändringar som måste kollas av vid eventuell uppdatering.
 
+## AzUrlShortener.sln
+
+För att inte frontend adminBlazorWebsite ska installeras vid deployment via github så tas detta bort. Möjligt att man inte behöver göra detta steg om man deployar via pipelines eller liknande
+
+            Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "adminBlazorWebsite", "src\adminTools\adminBlazorWebsite\src\adminBlazorWebsite.csproj", "{C0F1FBEA-E94D-4D65-9DD4-FA3089547354}"
+            EndProject
+
 ### Utility.cs
 
             public static IActionResult CatchUnauthorizeAsync(ClaimsPrincipal principal, ILogger log, HttpRequest request) {
