@@ -3,7 +3,7 @@ AzUrlShortener Version 2
 Det är förändrat en del i koden från orginalet FBoucher/AzUrlShortener [![FBoucher/AzUrlShortener](https://github.com/FBoucher/AzUrlShortener)] för att AzUrlShortener ska anpassas för vår miljö.
 Förändringar som måste kollas av vid eventuell uppdatering.
 
-## AzUrlShortener.sln
+### AzUrlShortener.sln
 
 För att inte frontend adminBlazorWebsite ska installeras vid deployment via github så tas detta bort. Möjligt att man inte behöver göra detta steg om man deployar via pipelines eller liknande
 
